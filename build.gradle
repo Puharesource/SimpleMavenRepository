@@ -27,11 +27,12 @@ task fatJar(type: Jar) {
 
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
+
+    version = null
 }
 
 project.tasks.assemble.dependsOn project.tasks.fatJar
 jar.enabled = false
-jar.version = null
 
 clean.doFirst {
     delete "$rootDir/out/"
