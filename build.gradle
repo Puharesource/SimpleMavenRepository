@@ -27,8 +27,6 @@ task fatJar(type: Jar) {
 
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
-
-    version = null
 }
 
 project.tasks.assemble.dependsOn project.tasks.fatJar
@@ -41,9 +39,6 @@ clean.doFirst {
 tasks.withType(Jar) {
     destinationDir = file("$rootDir/out/")
 }
-
-task stage(dependsOn: ['build', 'clean'])
-build.mustRunAfter clean
 
 repositories {
     mavenCentral()
