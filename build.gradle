@@ -31,6 +31,7 @@ task fatJar(type: Jar) {
 
 project.tasks.assemble.dependsOn project.tasks.fatJar
 jar.enabled = false
+jar.version = null
 
 clean.doFirst {
     delete "$rootDir/out/"
@@ -39,6 +40,9 @@ clean.doFirst {
 tasks.withType(Jar) {
     destinationDir = file("$rootDir/out/")
 }
+
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
 
 repositories {
     mavenCentral()
