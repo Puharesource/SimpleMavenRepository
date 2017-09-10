@@ -4,6 +4,7 @@ import kotlinx.html.*
 import kotlinx.html.stream.createHTML
 import org.apache.commons.io.FileUtils
 import org.xml.sax.InputSource
+import spark.Spark
 import spark.Spark.*
 import java.io.File
 import javax.servlet.MultipartConfigElement
@@ -166,6 +167,14 @@ object Routes {
             pomPath.createChecksumFiles()
 
             response.redirect("/")
+        }
+
+        config.extraRepoPaths.forEach {
+            Spark.get("/$it/*") { request, response ->
+                val relativePath = request.uri().removePrefix("/$it/")
+
+                response.redirect("/repo/$relativePath")
+            }
         }
 
         get("/repo") { _, response -> response.redirect("/repo/") }
