@@ -170,6 +170,10 @@ object Routes {
         }
 
         config.extraRepoPaths.forEach {
+            Spark.get("/$it") { _, response ->
+                response.redirect("/repo/")
+            }
+
             Spark.get("/$it/*") { request, response ->
                 val relativePath = request.uri().removePrefix("/$it/")
 
